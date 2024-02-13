@@ -1,20 +1,23 @@
 package com.example.composetutorial
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
-
+import com.example.composetutorial.database.UserViewModel
 
 @Composable
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "messages"
+    startDestination: String = "messages",
+    viewModel: UserViewModel
 ) {
+    val applicationContext = LocalContext.current
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -22,7 +25,7 @@ fun MyAppNavHost(
     ) {
         composable("messages") {
             MessagesScreen(
-                onNavigateUserProfile = { navController.navigate("userProfile") },
+                onNavigateUserProfile = { navController.navigate("userProfile") },viewModel, applicationContext
             )
         }
         composable("userProfile") {
@@ -33,7 +36,7 @@ fun MyAppNavHost(
                             inclusive = true
                         }
                     }
-                }
+                }, viewModel, applicationContext
             )
         }
     }
@@ -43,13 +46,17 @@ fun MyAppNavHost(
 @Composable
 fun UserProfileScreen(
     onNavigateMessages: () -> Unit,
+    viewModel: UserViewModel,
+    applicationContext: Context,
 ) {
-    UserProfile(onNavigateMessages)
+    userProfile(onNavigateMessages, viewModel, applicationContext)
 }
 
 @Composable
 fun MessagesScreen(
     onNavigateUserProfile: () -> Unit,
+    viewModel: UserViewModel,
+    applicationContext: Context,
 ) {
-    Messages(onNavigateUserProfile)
+    Messages(onNavigateUserProfile, viewModel, applicationContext)
 }

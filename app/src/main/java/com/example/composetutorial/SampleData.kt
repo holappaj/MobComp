@@ -8,10 +8,6 @@ object SampleData {
     // Sample conversation data
     val conversationSample = listOf(
         UserMessage(
-            "holappaj",
-            "Find me on GitHub with the same user account name"
-        ),
-        UserMessage(
             "Lexi",
             "Test...Test...Test..."
         ),

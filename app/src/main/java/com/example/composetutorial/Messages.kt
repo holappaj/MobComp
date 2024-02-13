@@ -1,6 +1,7 @@
 package com.example.composetutorial
 
 import SampleData
+import android.content.Context
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.border
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.clickable
@@ -38,17 +40,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import coil.compose.AsyncImage
+import com.example.composetutorial.database.User
+import com.example.composetutorial.database.UserDao
+import com.example.composetutorial.database.UserViewModel
+import kotlinx.coroutines.launch
 
 data class UserMessage(val user: String, val body: String)
 
 @Composable
-fun Messages(onNavigateUserProfile: () -> Unit) {
+fun Messages(onNavigateUserProfile: () -> Unit, viewModel: UserViewModel, applicationContext: Context) {
     Column(
         modifier = Modifier.padding(5.dp)
     ) {
         MessagesNavBar(onNavigateUserProfile)
-        Conversation(SampleData.conversationSample)
+        Conversation(SampleData.conversationSample, viewModel, applicationContext)
     }
 }
 
@@ -73,21 +82,34 @@ fun MessagesNavBar(onNavigateUserProfile: () -> Unit) {
 }
 
 @Composable
-fun Conversation(messages: List<UserMessage>) {
+fun Conversation(messages: List<UserMessage>, viewModel: UserViewModel, applicationContext: Context) {
     LazyColumn {
         items(messages) { message ->
-            MessageCard(message)
+            MessageCard(message, viewModel, applicationContext)
         }
     }
 }
 
 @Composable
-fun MessageCard(msg: UserMessage, modifier: Modifier = Modifier) {
-    // Add padding around our
+fun MessageCard(msg: UserMessage, viewModel: UserViewModel, applicationContext: Context, modifier: Modifier = Modifier) {
+
+    var currentUsername by remember { mutableStateOf("") }
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    val currentUserId = 1
+
+    LaunchedEffect(currentUserId) {
+        var user = viewModel.getUserById(currentUserId)
+        if (user != null) {
+            currentUsername = user?.username!!
+        }
+
+        imageUri = Uri.fromFile(applicationContext.getFileStreamPath("user$currentUserId.jpg"))
+    }
+
     Row(modifier = Modifier.padding(all = 8.dp)) {
-        Image(
-            painter = painterResource(R.drawable.mob_comp_hw1),
-            contentDescription = "User Image",
+        AsyncImage(
+            model = imageUri,
+            contentDescription = "",
             modifier = Modifier
                 // Set image size to X dp
                 .size(40.dp)
@@ -113,7 +135,7 @@ fun MessageCard(msg: UserMessage, modifier: Modifier = Modifier) {
         // Toggle isExpanded variable when the Column is clicked
         Column (modifier = Modifier.clickable { isExpanded = !isExpanded}) {
             Text(
-                text = msg.user,
+                text = currentUsername,
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.titleSmall
             )
@@ -143,7 +165,9 @@ fun MessageCard(msg: UserMessage, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(name = "Light Mode")
+/*@
+Preview not working
+Preview(name = "Light Mode")
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
@@ -155,4 +179,4 @@ fun PreviewConversation() {
         Conversation(SampleData.conversationSample)
     }
 }
-
+*/
