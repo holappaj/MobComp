@@ -3,7 +3,6 @@ package com.example.composetutorial
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,11 +35,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import com.example.composetutorial.database.UserViewModel
-import java.io.File
 
 
 @Composable

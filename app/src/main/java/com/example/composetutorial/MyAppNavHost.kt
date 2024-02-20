@@ -15,13 +15,13 @@ fun MyAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = "messages",
-    viewModel: UserViewModel
+    viewModel: UserViewModel,
 ) {
     val applicationContext = LocalContext.current
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
         composable("messages") {
             MessagesScreen(

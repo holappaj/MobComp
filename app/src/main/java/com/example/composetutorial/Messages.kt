@@ -7,12 +7,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.composetutorial.ui.theme.ComposeTutorialTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,7 +18,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.border
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -41,13 +36,9 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import coil.compose.AsyncImage
-import com.example.composetutorial.database.User
-import com.example.composetutorial.database.UserDao
 import com.example.composetutorial.database.UserViewModel
-import kotlinx.coroutines.launch
 
 data class UserMessage(val user: String, val body: String)
 
