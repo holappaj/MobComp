@@ -1,8 +1,12 @@
 package com.example.composetutorial
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.core.animation.doOnEnd
 import com.example.composetutorial.database.UserRepository
 import com.example.composetutorial.database.UserRoomDatabase
 import com.example.composetutorial.database.UserViewModel
@@ -22,7 +26,23 @@ class MainActivity : ComponentActivity() {
         val repository by lazy { UserRepository(database.userDao())}
         val viewModel = UserViewModel(database.userDao())
 
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            // Create your custom animation.
+            val slideUp = ObjectAnimator.ofFloat(
+                splashScreenView,
+                View.TRANSLATION_Y,
+                0f,
+                -splashScreenView.height.toFloat()
+            )
+            slideUp.interpolator = AnticipateInterpolator()
+            slideUp.duration = 1200L
 
+            // Call SplashScreenView.remove at the end of your custom animation.
+            slideUp.doOnEnd { splashScreenView.remove() }
+
+            // Run your animation.
+            slideUp.start()
+        }
 
         setContent {
             ComposeTutorialTheme {

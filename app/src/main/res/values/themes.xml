@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/teal_200</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/mob_comp_hw1</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="postSplashScreenTheme">@style/Theme.ComposeTutorial</item>
+    </style>
     <style name="Theme.ComposeTutorial" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
